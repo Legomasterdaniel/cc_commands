@@ -1,4 +1,12 @@
-sleep(1)
+local function split(string, seperator)
+    local table = {}
+    seperator = seperator or " "
+    for part in string.gmatch(str, "([^"..seperator.."]+)")
+        table.insert(table, part)
+    end
+    return table
+end
+
 while true do
     term.clear()
     term.setCursorPos(1, 1)
@@ -6,9 +14,11 @@ while true do
     write("Input a command: ")
     local input = read()
     
-    if fs.exists("cc_commands/commands/"..input) then
+    if fs.exists("cc_commands/commands/"..split(input, " ")[1]) then
         pcall(function()
-            os.run({}, "cc_commands/commands/"..input)
+            local command = require("cc_commands/commands/"..split(input, " ")[1])
+            local text = table.concat(split(input, " "), " ", 2)
+            command.run()
         end)
     end
     print("\nPress any key to continue..")

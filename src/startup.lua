@@ -1,5 +1,5 @@
 local githubData = {
-    UrlBase = "https://raw.githubusercontent.com/repos/%s/%s/refs/heads/main/%s",
+    UrlBase = "https://raw.githubusercontent.com/%s/%s/refs/heads/main/%s",
     Owner = "Legomasterdaniel",
     Repository = "cc_commands"
 }
@@ -10,7 +10,7 @@ local function CreateDirectory(path)
 end
 local function InsertFromRepository(path, githubFilePath)
     local request = http.get(string.format(
-        githubData.UrlBase, githubData.Owner, githubData.Repository, filePath))
+        githubData.UrlBase, githubData.Owner, githubData.Repository, githubFilePath))
     local fileData = request.readAll()
     request.close()
     
@@ -21,22 +21,22 @@ local function InsertFromRepository(path, githubFilePath)
 end
 
 local function IsInstalled()
-    if fs.exists("cc_commands") then return true end
+    if fs.exists("/cc_commands") then return true end
     return false
 end
 
 local function CreateFiles()
     -- Make necessary directories.
-    CreateDirectory("cc_commands")
-    CreateDirectory("cc_commands/commands")
+    CreateDirectory("/cc_commands")
+    CreateDirectory("/cc_commands/commands")
 
     -- Install the lua files from pastebin.
-    InsertFromRepository("src/cc_commands/startup.lua")
-    InsertFromRepository("src/cc_commands/commands/test.lua")
+    InsertFromRepository("/cc_commands/startup.lua", "src/cc_commands/startup.lua")
+    InsertFromRepository("/cc_commands/commands/test.lua", "src/cc_commands/commands/test.lua")
 end
 
 if IsInstalled() then
-    os.run(shell.resolve("cc_commands/startup.lua")) -- Run normal command system
+    os.run({}, "/cc_commands/startup.lua") -- Run normal command system
 else
     CreateFiles() -- Set up command system
 end

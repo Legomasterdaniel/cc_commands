@@ -1,6 +1,9 @@
+local env = {}
+setmetatable(env, { __index = _G })
+
 local function StartCommandExecutor(path)
     coroutine.resume(coroutine.create(function()
-        os.run({}, path)
+        os.run(env, path)
     end))
 end
 local function StartCommandExecutors()
@@ -14,7 +17,7 @@ local function StartCommandExecutors()
     end
     for _, executorPath in pairs(foundExecutors) do
         if executorPath == "cc_commands/command_executors/terminal.lua" then
-            os.run({}, executorPath)
+            os.run(env, executorPath)
         end
         write("Started ".. executorPath .. "")
     end

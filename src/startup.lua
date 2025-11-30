@@ -6,6 +6,7 @@ local githubData = {
 
 local function CreateDirectory(path)
     fs.makeDir(path)
+    print("Created Directory ".. path)
 end
 local function InsertFromRepository(path, githubFilePath)
     local request = http.get(string.format(
@@ -16,6 +17,7 @@ local function InsertFromRepository(path, githubFilePath)
     local file = fs.open(path, "w")
     file.write(fileData)
     file.close()
+    print("Created File ".. path)
 end
 
 local function IsInstalled()
@@ -24,18 +26,17 @@ local function IsInstalled()
 end
 
 local function CreateFiles()
-    if IsInstalled() then return end -- if already set up, stop process.
-
     -- Make necessary directories.
     CreateDirectory("rom/cc_commands")
     CreateDirectory("rom/cc_commands/commands")
 
     -- Install the lua files from pastebin.
-    pastebin get 
+    InsertFromRepository("src/rom/cc_commands/startup.lua")
+    InsertFromRepository("src/rom/cc_commands/commands/test.lua")
 end
 
 if IsInstalled() then
-    os.run(shell.resolve("rom/cc_commands/startup.lua")) -- Run normal command
+    os.run(shell.resolve("rom/cc_commands/startup.lua")) -- Run normal command system
 else
-
+    CreateFiles() -- Set up command system
 end

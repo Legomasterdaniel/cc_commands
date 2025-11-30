@@ -2,7 +2,7 @@ local function split(str, seperator)
     local t = {}
     seperator = seperator or " "
     for part in string.gmatch(str, "([^"..seperator.."]+)") do
-        t.insert(t, part)
+        table.insert(t, part)
     end
     return t
 end
@@ -16,7 +16,7 @@ while true do
     
     if fs.exists("cc_commands/commands/"..split(input, " ")[1]) then
         local success, error = pcall(function()
-            local command = require("cc_commands/commands/"..split(input, " ")[1])
+            local command = require("cc_commands/commands/"..split(input, " ")[1]..".lua")
             if not command then
                 write("ERROR: Could not find command ".. split(input, " ")[1] .."!")
                 return

@@ -24,24 +24,25 @@ local function RecursiveTreeExploration(tree)
         for _, branch in pairs(branches) do
             RecursiveTreeExploration(branch)
         end
-    elseif tree.type = "file" then
+    elseif tree.type == "file" then
         local request = http.get(tree.download_url)
         local fileData = request.readAll()
         request.close()
-
+        if tree.path == "src/startup.lua" then goto continue end
         CreateFile(string.sub(tree.path, 4), fileData)
+        ::continue::
     end
 end
 local function CloneRepository()
-    local request = http.get(string.format(
-        githubData.UrlBase, githubData.Owner, githubData.Repository, githubFilePath))
+    local request = http.get(githubRepository)
     local data = request.readAll()
     data = json.unserialiseJSON(data)
     request.close()
 
     for _, branch in pairs(data) do
-        if branch.name ~= "src" then continue end
+        if branch.name ~= "src" then goto continue end
         RecursiveTreeExploration(branch)
+        ::continue::
     end
 end
 

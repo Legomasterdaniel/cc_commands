@@ -21,6 +21,7 @@ local function RecursiveTreeExploration(tree)
         local branches = request.readAll()
         branches = json.unserialiseJSON(branches)
         request.close()
+        CreateDirectory(string.sub(tree.path, 4))
         for _, branch in pairs(branches) do
             RecursiveTreeExploration(branch)
         end
@@ -49,20 +50,6 @@ end
 local function IsInstalled()
     if fs.exists("/cc_commands") then return true end
     return false
-end
-
-local function CreateFiles()
-    -- Make necessary directories.
-    CreateDirectory("/cc_commands")
-    CreateDirectory("/cc_commands/commands")
-
-    -- Install the lua files from pastebin.
-    InsertFromRepository("/cc_commands/startup.lua", "src/cc_commands/startup.lua")
-    InsertFromRepository("/cc_commands/commands/test.lua", "src/cc_commands/commands/test.lua")
-
-    print("\nDone installing!\n\n")
-
-    os.run({}, "/cc_commands/startup.lua")
 end
 
 if IsInstalled() then

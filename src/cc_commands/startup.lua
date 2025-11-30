@@ -1,5 +1,5 @@
 local function StartCommandExecutor(path)
-    couroutine.resume(coroutine.create(function()
+    coroutine.resume(coroutine.create(function()
         os.run({}, path)
     end))
 end

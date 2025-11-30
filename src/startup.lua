@@ -6,13 +6,13 @@ local githubRepository = "https://api.github.com/repos/Legomasterdaniel/cc_comma
 
 local function CreateDirectory(path)
     fs.makeDir(path)
-    print("Created Directory ".. path)
+    print("Created Directory ".. path .."\n")
 end
 local function CreateFile(path, fileData)
     local file = fs.open(path, "w")
     file.write(fileData)
     file.close()
-    print("Created File ".. path)
+    print("Created File ".. path .."\n")
 end
 
 local function RecursiveTreeExploration(tree)

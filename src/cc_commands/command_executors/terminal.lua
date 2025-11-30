@@ -2,7 +2,7 @@ sleep(1)
 while true do
     term.clear()
     term.setCursorPos(1, 1)
-    write("Options:\n - help | Lists out all available commands.")
+    write("Options:\n - help | Lists out all available commands.\n\n")
     write("Input a command: ")
     local input = read()
     

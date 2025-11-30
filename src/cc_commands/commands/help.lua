@@ -3,7 +3,7 @@ return {
         test = {
             name = "test",
             run = function(text)
-                print(text)
+                write(text)
             end
         }
     }

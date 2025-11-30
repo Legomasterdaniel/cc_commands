@@ -1,10 +1,10 @@
-local function split(string, seperator)
-    local table = {}
+local function split(str, seperator)
+    local t = {}
     seperator = seperator or " "
-    for part in string.gmatch(str, "([^"..seperator.."]+)")
-        table.insert(table, part)
+    for part in string.gmatch(str, "([^"..seperator.."]+)") do
+        t.insert(t, part)
     end
-    return table
+    return t
 end
 
 while true do
@@ -15,13 +15,22 @@ while true do
     local input = read()
     
     if fs.exists("cc_commands/commands/"..split(input, " ")[1]) then
-        pcall(function()
+        local success, error = pcall(function()
             local command = require("cc_commands/commands/"..split(input, " ")[1])
+            if not command then
+                write("ERROR: Could not find command ".. split(input, " ")[1] .."!")
+                return
+            end
             local text = table.concat(split(input, " "), " ", 2)
             command.run()
         end)
+        if not success then
+            write("ERROR: ".. error)
+        end
+    else
+        write("ERROR: Could not find command ".. split(input, " ")[1] .."!")
     end
-    print("\nPress any key to continue..")
+    write("\nPress any key to continue..")
     while true do
         local event = os.pullEvent()
         if event == "key" then break end

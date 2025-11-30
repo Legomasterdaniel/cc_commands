@@ -21,22 +21,22 @@ local function InsertFromRepository(path, githubFilePath)
 end
 
 local function IsInstalled()
-    if fs.exists("rom/cc_commands") then return true end
+    if fs.exists("cc_commands") then return true end
     return false
 end
 
 local function CreateFiles()
     -- Make necessary directories.
-    CreateDirectory("rom/cc_commands")
-    CreateDirectory("rom/cc_commands/commands")
+    CreateDirectory("cc_commands")
+    CreateDirectory("cc_commands/commands")
 
     -- Install the lua files from pastebin.
-    InsertFromRepository("src/rom/cc_commands/startup.lua")
-    InsertFromRepository("src/rom/cc_commands/commands/test.lua")
+    InsertFromRepository("src/cc_commands/startup.lua")
+    InsertFromRepository("src/cc_commands/commands/test.lua")
 end
 
 if IsInstalled() then
-    os.run(shell.resolve("rom/cc_commands/startup.lua")) -- Run normal command system
+    os.run(shell.resolve("cc_commands/startup.lua")) -- Run normal command system
 else
     CreateFiles() -- Set up command system
 end

@@ -1,7 +1,7 @@
 local function StartCommandExecutor(path)
-    coroutine.create(function()
+    couroutine.resume(coroutine.create(function()
         os.run({}, path)
-    end)()
+    end))
 end
 local function StartCommandExecutors()
     print("Starting Command Executors..")
@@ -12,3 +12,4 @@ local function StartCommandExecutors()
     end
     print("Started Command Executors!")
 end
+StartCommandExecutors()
